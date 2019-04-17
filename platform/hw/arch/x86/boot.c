@@ -37,6 +37,10 @@ x86_boot(struct multiboot_info *mbi)
 {
 
 	cons_init();
+
+	//STOP!
+	bmk_platform_halt(0);
+
 	bmk_printf("rump kernel bare metal bootstrap\n\n");
 
 	cpu_init();

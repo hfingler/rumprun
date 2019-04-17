@@ -35,7 +35,7 @@ serialcons_init(uint16_t combase_init, int speed)
 {
 	uint16_t divisor = 115200 / speed;
 
-	combase = combase_init;
+	combase = 0x3F8;
 	outb(combase + COM_IER, 0x00);
 	outb(combase + COM_LCTL, 0x80);
 	outb(combase + COM_DLBL, divisor & 0xff);
