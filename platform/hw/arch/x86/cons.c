@@ -36,7 +36,7 @@ static void (*vcons_putc)(int) = vgacons_putc;
 /*
  * Filled in by locore from BIOS data area.
  */
-uint16_t bios_com1_base, bios_crtc_base;
+uint16_t bios_com1_base = 0x400, bios_crtc_base = 0x463;
 
 void
 cons_init(void)

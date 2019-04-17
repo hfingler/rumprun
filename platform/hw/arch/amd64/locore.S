@@ -42,7 +42,7 @@ bootstrap:
 .long 0x100000
 .long _edata
 .long _ebss
-.long _start
+.long _start64
 
 .space 4096
 bootstack:
@@ -185,8 +185,19 @@ ENTRY(_start64)
 	movq $bootstack, %rsp
 	xorq %rbp, %rbp
 
+	/* rbx has pointer to mb_info */
+	push %rbx
+
+	/* "clear console" from 32bit code  */
+	pushq %rax
+	movw $' ', %ax
+	movl $(CONS_ADDRESS), %edi
+	movl $(CONS_WIDTH*CONS_HEIGHT), %ecx
+	rep stosw
+	popq %rax
+
 	/* read multiboot info pointer */
-	movq -8(%rsp), %rdi
+	pop %rdi
 
 	pushq $0x0
 	pushq $0x0
