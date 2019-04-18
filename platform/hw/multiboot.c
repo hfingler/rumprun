@@ -121,6 +121,8 @@ multiboot(struct multiboot_info *mbi)
 		multiboot_cmdline[0] = 0;
 
 	bmk_printf("flags: %x   need  1\n", mbi->flags);
+	bmk_printf("ptr: %p   need  1\n", mbi);
+
 
 	if ((mbi->flags & MULTIBOOT_INFO_MEMORY) == 0)
 		bmk_platform_halt("multiboot memory info not available\n");
