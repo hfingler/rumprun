@@ -108,6 +108,7 @@ multiboot(struct multiboot_info *mbi)
 	 * before something overwrites it */
 	if (cmdline == NULL && mbi->flags & MULTIBOOT_INFO_CMDLINE) {
 		cmdline = (char *)(uintptr_t)mbi->cmdline;
+		bmk_printf("found cmdline:  %s\n", cmdline);
 		cmdlinelen = bmk_strlen(cmdline);
 		if (cmdlinelen >= BMK_MULTIBOOT_CMDLINE_SIZE)
 			bmk_platform_halt("command line too long, "
@@ -118,6 +119,8 @@ multiboot(struct multiboot_info *mbi)
 	/* No configuration/cmdline found */
 	if (cmdline == NULL)
 		multiboot_cmdline[0] = 0;
+
+	bmk_printf("flags: %x   need  1\n", mbi->flags);
 
 	if ((mbi->flags & MULTIBOOT_INFO_MEMORY) == 0)
 		bmk_platform_halt("multiboot memory info not available\n");
