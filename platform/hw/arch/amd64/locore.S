@@ -190,17 +190,8 @@ ENTRY(_start64)
 	/* rbx has pointer to mb_info */
 	push %rbx
 
-	/* "clear console" from 32bit code  */
-	pushq %rax
-	movw $' ', %ax
-	movl $(CONS_ADDRESS), %edi
-	movl $(CONS_WIDTH*CONS_HEIGHT), %ecx
-	rep stosw
-	popq %rax
-
 	/* read multiboot info pointer */
 	pop %rdi
-
 	pushq $0x0
 	pushq $0x0
 
