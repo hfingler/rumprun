@@ -125,6 +125,7 @@ cpu_init(void)
 	/*
 	 * fill TSS
 	 */
+	/*
 	mytss.tss_ist[0] = (unsigned long)intrstack + sizeof(intrstack)-16;
 	mytss.tss_ist[1] = (unsigned long)nmistack + sizeof(nmistack)-16;
 	mytss.tss_ist[2] = (unsigned long)dfstack + sizeof(dfstack)-16;
@@ -140,7 +141,7 @@ cpu_init(void)
 	td->td_hibase = 0xffffffffffUL;
 	td->td_zero = 0;
 	amd64_ltr(3*8);
-
+*/
 	x86_initclocks();
 }
 
