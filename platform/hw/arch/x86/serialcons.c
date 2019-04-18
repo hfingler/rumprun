@@ -42,6 +42,9 @@ serialcons_init(uint16_t combase_init, int speed)
 	outb(combase + COM_DLBH, divisor >> 8);
 	outb(combase + COM_LCTL, 0x03);
 	outb(combase + COM_FIFO, 0xc7);
+
+	serialcons_putc('X');
+	serialcons_putc('\n');
 }
 
 void
