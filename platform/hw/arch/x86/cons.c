@@ -62,8 +62,8 @@ cons_init(void)
 
 	//if (prefer_serial && bios_com1_base != 0) {
 	//	cons_puts("Using serial console.");
-		serialcons_init(0, 115200);
-	//	vcons_putc = serialcons_putc;
+		serialcons_init(0x3f8, 115200);
+		vcons_putc = serialcons_putc;
 	//}
 	bmk_printf_init(vcons_putc, NULL);
 }
