@@ -139,7 +139,7 @@ cpu_init(void)
 	td->td_gran = 0;
 	td->td_hibase = 0xffffffffffUL;
 	td->td_zero = 0;
-	amd64_ltr(4*8);
+	amd64_ltr(3*8);
 
 	x86_initclocks();
 }
