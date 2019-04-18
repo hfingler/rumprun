@@ -102,9 +102,9 @@ x86_fillgate(int num, void *fun, int ist)
 	gd->gd_xx3 = 0;
 }
 
-static char intrstack[4096];
-static char nmistack[4096];
-static char dfstack[4096];
+//static char intrstack[4096];
+//static char nmistack[4096];
+//static char dfstack[4096];
 
 /*
  * This routine fills out the interrupt descriptors so that
