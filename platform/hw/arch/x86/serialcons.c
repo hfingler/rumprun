@@ -38,8 +38,8 @@ serialcons_init(uint16_t combase_init, int speed)
 	combase = combase_init;
 	outb(combase + COM_IER, 0x00);
 	outb(combase + COM_LCTL, 0x80);
-	outb(combase + COM_DLBL, divisor & 0xff);
-	outb(combase + COM_DLBH, divisor >> 8);
+	outb(combase + COM_DLBL, divisor);
+	outb(combase + COM_DLBH, 0x00);
 	outb(combase + COM_LCTL, 0x03);
 	outb(combase + COM_FIFO, 0xc7);
 
