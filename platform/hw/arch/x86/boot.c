@@ -45,16 +45,20 @@ x86_boot(struct multiboot_info *mbi)
 
 	cpu_init();
 
+	uint32_t x[100];
 	//time before sched
-	bmk_time_t st = bmk_platform_cpu_clock_monotonic();
-
 	for (int i = 0 ; i < 100 ; i++) {
+		bmk_time_t st = bmk_platform_cpu_clock_monotonic();
 		serialcons_putc('a')
+		bmk_time_t end = bmk_platform_cpu_clock_monotonic();
+		bmk_time_t dif = end-st;
 
-	bmk_time_t end = bmk_platform_cpu_clock_monotonic();
-
-	bmk_time_t dif = end-st;
-	bmk_printf("time: %q  %l\n\n", dif, dif);
+		x[i] = dif;
+	}
+	
+	bmk_printf("\n\n\n\n\n");
+	for (int i = 0 ; i < 100 ; i++)
+		bmk_printf("time: %u\n\n", x[i]);
 	//end of timing
 
 	bmk_sched_init();
