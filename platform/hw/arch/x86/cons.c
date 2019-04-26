@@ -31,47 +31,26 @@
 
 #include <bmk-core/printf.h>
 
-static void (*vcons_putc)(int) = vgacons_putc;
+static void (*vcons_putc)(int) = 0;
 
-/*
- * Filled in by locore from BIOS data area.
- */
-//these are default values
-//uint16_t bios_com1_base = 0x3F8, bios_crtc_base = 0x463;
+//output or not
+#define SERIAL_PRINT 1
 
 void
 cons_init(void)
 {
-	//int prefer_serial = 0;
-	//int hypervisor;
+	serialcons_init(0x3f8, 115200);
 
-	//hypervisor = hypervisor_detect();
-
-	/*
-	 * If running under Xen use the serial console.
-	 */
-	//if (hypervisor == HYPERVISOR_XEN)
-	//	prefer_serial = 1;
-
-	/*
-	 * If the BIOS says no CRTC is present use the serial console if
-	 * available.
-	 */
-	//if (bios_crtc_base == 0)
-	//	prefer_serial = 1;
-
-	//if (prefer_serial && bios_com1_base != 0) {
-	//	cons_puts("Using serial console.");
-		serialcons_init(0x3f8, 115200);
+	#if SERIAL_PRINT
 		vcons_putc = serialcons_putc;
-	//}
+	#endif
+
 	bmk_printf_init(vcons_putc, NULL);
 }
 
 void
 cons_putc(int c)
 {
-
 	vcons_putc(c);
 }
 

@@ -32,6 +32,10 @@
 #include <bmk-core/sched.h>
 #include <bmk-core/printf.h>
 
+//for time
+#include <bmk-core/platform.h>
+#include <arch/x86/cons.h>
+
 void
 x86_boot(struct multiboot_info *mbi)
 {
@@ -40,6 +44,19 @@ x86_boot(struct multiboot_info *mbi)
 	bmk_printf("rump kernel bare metal bootstrap\n\n");
 
 	cpu_init();
+
+	//time before sched
+	bmk_time_t st = bmk_platform_cpu_clock_monotonic();
+
+	for (int i = 0 ; i < 100 ; i++) {
+		serialcons_putc('a')
+
+	bmk_time_t end = bmk_platform_cpu_clock_monotonic();
+
+	bmk_time_t dif = end-st;
+	bmk_printf("time: %q  %l\n\n", dif, dif);
+	//end of timing
+
 	bmk_sched_init();
 	multiboot(mbi);
 
