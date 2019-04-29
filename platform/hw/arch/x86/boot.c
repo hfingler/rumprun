@@ -45,6 +45,7 @@ x86_boot(struct multiboot_info *mbi)
 
 	cpu_init();
 
+	/*
 	uint32_t x[100];
 	//time before sched
 	for (int i = 0 ; i < 100 ; i++) {
@@ -60,6 +61,7 @@ x86_boot(struct multiboot_info *mbi)
 	for (int i = 0 ; i < 100 ; i++)
 		bmk_printf("time: %u\n\n", x[i]);
 	//end of timing
+	*/
 
 	bmk_sched_init();
 	multiboot(mbi);

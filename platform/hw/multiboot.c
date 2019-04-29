@@ -120,8 +120,8 @@ multiboot(struct multiboot_info *mbi)
 	if (cmdline == NULL)
 		multiboot_cmdline[0] = 0;
 
-	bmk_printf("flags: %x   need  1\n", mbi->flags);
-	bmk_printf("ptr: %p   need  1\n", mbi);
+	//bmk_printf("flags: %x   need  1\n", mbi->flags);
+	//bmk_printf("ptr: %p   need  1\n", mbi);
 
 
 	if ((mbi->flags & MULTIBOOT_INFO_MEMORY) == 0)
