@@ -276,6 +276,9 @@ config_ipv4(const char *ifname, const char *method,
 {
 	int rv;
 
+	//hfn
+	warnx("in config ipv4");
+
 	if (strcmp(method, "dhcp") == 0) {
 		if ((rv = rump_pub_netconfig_dhcp_ipv4_oneshot(ifname)) != 0)
 			errx(1, "configuring dhcp for %s failed: %d",
@@ -292,6 +295,7 @@ config_ipv4(const char *ifname, const char *method,
 
 		if ((rv = rump_pub_netconfig_ipv4_ifaddr_cidr(ifname,
 		    addr, atoi(mask))) != 0) {
+			//hfn failing here
 			errx(1, "ifconfig \"%s\" for \"%s/%s\" failed, code %d",
 			    ifname, addr, mask, rv);
 		}
@@ -358,6 +362,23 @@ handle_net(jsmntok_t *t, int left, char *data)
 	ifname = cloner = type = method = NULL;
 	addr = mask = gw = NULL;
 
+	warnx("in handle net, params: %s", data);
+
+	int fd = open("/dev/mmvio0", O_RDWR);
+	if (fd == -1) {
+		warnx("cannot open mmvio");
+
+		//if (mknod("/dev/mmvio0", 0666 | S_IFCHR, makedev(420,0) ) == -1)
+				//err(1, "mknod mmvio");
+	/*
+		fd = open("/dev/mmvio", O_RDWR);
+		if (fd == -1) {
+			err(1, "still cannot open mmvio");
+		}
+	*/
+	}
+
+
 	for (i = 0; i < objsize; i++, t+=2) {
 		const char *valuestr;
 		key = t;
@@ -401,12 +422,15 @@ handle_net(jsmntok_t *t, int left, char *data)
 	}
 
 	if (cloner) {
+		//hfn
+		warnx("cloner is true, calling rump_pub_netconfig_ifcreate");
+		
 		if ((rv = rump_pub_netconfig_ifcreate(ifname)) != 0) {
 			errx(1, "rumprun_config: ifcreate %s failed: %d",
 			    ifname, rv);
 		}
 	}
-
+	
 	if (strcmp(type, "inet") == 0) {
 		config_ipv4(ifname, method, addr, mask, gw);
 	} else if (strcmp(type, "inet6") == 0) {
@@ -770,6 +794,17 @@ rumprun_config(char *cmdline)
 		}
 		cmdline++;
 	}
+
+/*
+	warnx("hack\n");
+	//hfn HACKY AF
+	char* x = cmdline;
+	while ( strcmp(x, "root=") != 0 && *x != '\0')
+		x++;
+	*x = '\0';
+	warnx("new cmd:  %s\n", cmdline);
+*/
+
 
 	cmdline_len = strlen(cmdline);
 	jsmn_init(&p);

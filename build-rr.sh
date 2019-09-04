@@ -358,8 +358,16 @@ buildrump ()
 	# Disable new errors on GCC 7 which break netbsd-src compilation
 	#
 	[ `${CC} -dumpversion | cut -f1 -d.` -ge 7 ] \
-		&& extracflags="$extracflags -F CPPFLAGS=-Wimplicit-fallthrough=0"	
-
+		&& extracflags="$extracflags -F CPPFLAGS=-Wimplicit-fallthrough=0" \
+		&& extracflags="$extracflags -F CFLAGS=-Wno-error=maybe-uninitialized" \
+		&& extracflags="$extracflags -F CFLAGS=-Wno-error=implicit-function-declaration"	
+	# Disable new errors on GCC 8 which break netbsd-src compilation
+	#
+	[ `${CC} -dumpversion | cut -f1 -d.` -ge 8 ] \
+		&& extracflags="$extracflags -F CFLAGS=-Wno-error=packed-not-aligned" \
+		&& extracflags="$extracflags -F CFLAGS=-Wno-error=cast-function-type" \
+		&& extracflags="$extracflags -F CFLAGS=-Wno-error=tautological-compare" \
+		&& extracflags="$extracflags -F CFLAGS=-Wno-error=attributes"
 
 	# build tools
 	${BUILDRUMP}/buildrump.sh ${BUILD_QUIET} ${STDJ} -k		\
