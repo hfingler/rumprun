@@ -364,9 +364,9 @@ handle_net(jsmntok_t *t, int left, char *data)
 
 	warnx("in handle net, params: %s", data);
 
-	int fd = open("/dev/mmvio0", O_RDWR);
+	int fd = open("/dev/vioif0", O_RDWR);
 	if (fd == -1) {
-		warnx("cannot open mmvio");
+		warnx("cannot open vioif0");
 
 		//if (mknod("/dev/mmvio0", 0666 | S_IFCHR, makedev(420,0) ) == -1)
 				//err(1, "mknod mmvio");
